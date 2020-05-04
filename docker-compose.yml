@@ -1,0 +1,38 @@
+version: "3"
+services:
+  metabase:
+    image: metabase/metabase:v0.35.3
+    container_name: homevis_metabase
+    restart: on-failure:5
+    ports:
+      - 3000:3000
+    volumes:
+      - metabase_db:/metabase-data
+
+  db:
+    image: postgres:12.2-alpine
+    container_name: homevis_db
+    restart: on-failure:5
+    volumes:
+      - db_data:/var/lib/postgresql
+      - ./db/src/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: ${HOMEVIS_DB}
+      POSTGRES_USER: ${HOMEVIS_USER}
+      POSTGRES_PASSWORD: ${HOMEVIS_PASSWORD}
+
+  cron:
+    build: ./cron
+    container_name: homevis_cron
+    restart: on-failure:5
+    environment:
+      TEPCO_USERNAME: ${TEPCO_USERNAME}
+      TEPCO_PASSWORD: ${TEPCO_PASSWORD}
+      POSTGRES_DB: ${HOMEVIS_DB}
+      POSTGRES_USER: ${HOMEVIS_USER}
+      POSTGRES_PASSWORD: ${HOMEVIS_PASSWORD}
+
+
+volumes:
+  db_data:
+  metabase_db:
