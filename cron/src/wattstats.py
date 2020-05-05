@@ -120,11 +120,11 @@ def csv(session, dates):
     df = df.drop("供給地点特定番号", axis=1)
     df = df.drop("休祝日", axis=1)
     df = df.drop("契約メニュー", axis=1)
+    df = df.drop("曜日", axis=1)
 
     # ヘッダー名称を変更
     df = df.rename(columns={
         "年月日": "datetime",
-        "曜日": "dow",
         "ご使用量": "watt_usage",
         "売電量": "watt_sold"
     })
@@ -169,13 +169,11 @@ def todb(df):
 def update_watt(con, cur, row):
     try:
         cur.execute(
-            "INSERT INTO wattstats(datetime, dow, watt_usage, watt_sold)"
-            " VALUES(%(dt)s, %(dow)s, %(wu)s, %(ws)s) "
+            "INSERT INTO wattstats(datetime, watt_usage, watt_sold)"
+            " VALUES(%(dt)s, %(wu)s, %(ws)s) "
             "ON CONFLICT (datetime) "
-            "DO UPDATE SET"
-            " dow = %(dow)s, watt_usage = %(wu)s, watt_sold = %(ws)s;",
-            {"dt": row.datetime, "dow": row.dow,
-             "wu": row.watt_usage, "ws": row.watt_sold}
+            "DO UPDATE SET watt_usage = %(wu)s, watt_sold = %(ws)s;",
+            {"dt": row.datetime, "wu": row.watt_usage, "ws": row.watt_sold}
         )
     except Exception as e:
         log.error("Error update watt: "
