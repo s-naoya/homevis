@@ -104,7 +104,13 @@ def csv(session, dates):
         csvdata = session.get(csv_url, headers=csvgetheader)
 
         # CSVをDataFrameに読み込み
-        df_tmp = pd.read_csv(StringIO(csvdata.text))
+        try:
+            df_tmp = pd.read_csv(StringIO(csvdata.text))
+        except Exception as e:
+            log.error("Don't read csv "
+                      + str(date[0]) + "-" + str(date[1]) + "-" + str(date[2])
+                      + " " + str(e))
+            continue
         df = pd.concat([df, df_tmp])
 
     # 不要な列を削除
