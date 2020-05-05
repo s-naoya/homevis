@@ -19,6 +19,11 @@ COPY src /usr/local/bin
 RUN chmod -R 744 /usr/local/bin
 
 COPY crontabs/jobs ./
-# RUN busybox crontab jobs
 COPY crontabs/jobs /var/spool/cron/crontabs/root
+
+# 不要なパッケージを削除
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 CMD ["busybox", "crond", "-f"]
