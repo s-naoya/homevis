@@ -1,8 +1,11 @@
 FROM ubuntu:18.04
 
 RUN DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y tzdata
+RUN apt-get update && apt-get install -y tzdata language-pack-ja
 ENV TZ=Asia/Tokyo
+ENV LANG=$LANG=:ja_JP.UTF-8
+RUN LC_ALL=ja_JP.UTF-8
+
 
 RUN apt-get install -y busybox-static python3 python3-dev python3-pip libpq-dev vim
 
