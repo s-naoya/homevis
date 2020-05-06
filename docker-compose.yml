@@ -49,6 +49,10 @@ services:
       POSTGRES_DB: ${HOMEVIS_DB}
       POSTGRES_USER: ${HOMEVIS_USER}
       POSTGRES_PASSWORD: ${HOMEVIS_PASSWORD}
+      SMTP_TO_ADDRESS: ${HOMEVIS_ERROR_TO_ADDRESS}
+      SMTP_FROM_ADDRESS: error@homevis.me
+      SMTP_SERVER: homevis_smtp
+      SMTP_PORT: 25
 
   smtp:
     image: tecnativa/postfix-relay
