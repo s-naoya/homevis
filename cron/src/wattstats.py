@@ -194,8 +194,11 @@ def getkmhs(dates):
 if __name__ == '__main__':
     log.info("Run wattstats.py")
 
-    ymd = parser(sys.argv)
-    df = getkmhs(ymd)
-    todb(df)
+    try:
+        ymd = parser(sys.argv)
+        df = getkmhs(ymd)
+        todb(df)
+    except Exception as e:
+        log.error("Some kind of error has occurred: "+str(e))
 
     log.info("Finish wattstats.py")
