@@ -51,7 +51,8 @@ class Logger:
         self.__exc_notification(msg)
 
     def __exc_notification(self, msg):
-        message = str(time.asctime()) + " " + str(os.getpid()) + "\n" + msg + "\n\n" + traceback.format_exc()
+        message = str(time.asctime()) + " " + str(os.getpid()) + \
+            "\n" + msg + "\n\n" + traceback.format_exc()
         self.__mail(message)
 
     def __mail(self, msg):
@@ -60,7 +61,7 @@ class Logger:
         mail["To"] = os.environ["SMTP_TO_ADDRESS"]
         mail["From"] = os.environ["SMTP_FROM_ADDRESS"]
 
-        server = smtplib.SMTP(os.environ["SMTP_SERVER"], os.environ["SMTP_PORT"])
+        server = smtplib.SMTP(
+            os.environ["SMTP_SERVER"], os.environ["SMTP_PORT"])
         server.send_message(mail)
         server.quit()
-
