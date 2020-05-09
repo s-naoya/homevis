@@ -3,7 +3,7 @@
 """電力消費量を取得し、データベースに追加・更新
 
 Args: 日付を選択。下記のどちらかを入力可能
-    "new" -- スクリプトを稼働した日から三日前まで。str
+    "new" -- スクリプトを稼働した日から2日前まで。str
     from_date to_date -- 指定した日付間。8桁のint×2
 """
 import os
@@ -33,10 +33,10 @@ def parser(args):
     from_to_date = [None, None]  # [datetime, datetime]
 
     if len(args) == 2 and args[1] == "new":
-        # 引数が"new"のみの場合、起動日の3日前から前日までを指定
+        # 引数が"new"のみの場合、起動日の2日前から当日までを指定
         today = datetime.today()
-        from_to_date[0] = today-timedelta(days=3)
-        from_to_date[1] = today-timedelta(days=1)
+        from_to_date[0] = today-timedelta(days=2)
+        from_to_date[1] = today-timedelta(days=0)
     elif len(args) == 3 and len(args[1]) == 8 and len(args[2]) == 8:
         # 引数が2つかつ引数の長さが8の場合、引数1から引数2までを指定
         for i in range(2):
