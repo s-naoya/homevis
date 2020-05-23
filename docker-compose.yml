@@ -6,6 +6,11 @@ services:
     restart: on-failure:5
     depends_on:
       - metabase_db
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
     ports:
       - 3000:3000
     environment:
@@ -20,6 +25,11 @@ services:
     image: postgres:12.2-alpine
     container_name: homevis_metabase_db
     restart: on-failure:5
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
     volumes:
       - metabase_db_data:/var/lib/postgresql/data
     environment:
@@ -31,6 +41,11 @@ services:
     image: postgres:12.2-alpine
     container_name: homevis_db
     restart: on-failure:5
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
     volumes:
       - homevis_db_data:/var/lib/postgresql/data
       - ./db/src/init:/docker-entrypoint-initdb.d
@@ -43,6 +58,11 @@ services:
     build: ./cron
     container_name: homevis_cron
     restart: on-failure:5
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
     environment:
       TEPCO_USERNAME: ${TEPCO_USERNAME}
       TEPCO_PASSWORD: ${TEPCO_PASSWORD}
@@ -58,6 +78,11 @@ services:
     image: tecnativa/postfix-relay
     container_name: homevis_smtp
     restart: on-failure:5
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
     environment:
       MAIL_RELAY_HOST: smtp.gmail.com
       MAIL_RELAY_PORT: 587
@@ -69,3 +94,4 @@ services:
 volumes:
   homevis_db_data:
   metabase_db_data:
+
