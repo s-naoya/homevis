@@ -63,12 +63,17 @@ services:
       options:
         max-file: "5"
         max-size: "10m"
+    volumes:
+      - ${BACKUP_DIR}:/backup
     environment:
       TEPCO_USERNAME: ${TEPCO_USERNAME}
       TEPCO_PASSWORD: ${TEPCO_PASSWORD}
       POSTGRES_DB: ${HOMEVIS_DB}
       POSTGRES_USER: ${HOMEVIS_USER}
       POSTGRES_PASSWORD: ${HOMEVIS_PASSWORD}
+      METABASE_DB: ${METABASE_DB}
+      METABASE_USER: ${METABASE_USER}
+      METABASE_PASSWORD: ${METABASE_PASSWORD}
       SMTP_TO_ADDRESS: ${HOMEVIS_ERROR_TO_ADDRESS}
       SMTP_FROM_ADDRESS: error@homevis.me
       SMTP_SERVER: homevis_smtp
